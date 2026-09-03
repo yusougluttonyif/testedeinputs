@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <style>
+        body{
+            width: 100vh;
+            transition: all 0.3s ease;
+            margin: 0;
+            justify-content: center;
+            align-items: center; 
+            background-color: black;
+            display: grid;
+            font-family: 'Times New Roman', Times, serif;
+        }
+        body::-webkit-scrollbar {
+            display: none;
+        }
+        meter::-webkit-meter-bar {
+            appearance: none;
+            width: 100px;
+            height: 20px;
+        }
+        p {
+            color: black;
+            overflow-wrap: break-word;
+            max-width: 300px;
+            background-color: white;
+            padding: 10px 10px;
+        }
+        textarea {
+            padding: 10px 10px;
+            scrollbar-width: 0;
+            justify-content: left;
+            text-align: left;
+            place-items: left;
+          overflow: scroll;
+          transition: all 0.3s ease;
+          margin-top: 200px;
+          width: 300px;
+          height: 80px;
+          font-size: 20px;
+          
+        }
+        textarea::-webkit-scrollbar {
+            display: none;
+        }
+        textarea:focus::placeholder {
+        transition: all 0.3s ease;
+         color: white;
+         animation: jump 3s infinite cubic-bezier(1, 0, 0.32, 1);
+        }
+        textarea::placeholder {
+            transition: all 0.3s ease;
+        }
+        textarea:focus {
+         transition: all 0.3s ease;
+         background-color: black;
+         color: white;
+         border: 2px solid white;
+         border-radius: 10px;
+        }
+        @keyframes jump {
+            0%, 100% {transform: translateX(0px);}
+            50% {transform: translateX(10px);}
+        }
+        button {
+            margin-top: 20px;}
+
+        #receiver {
+            visibility: hidden;
+            z-index: 999;
+            overflow: scroll;
+            border: 5px solid white;
+            background-color: black;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 500px;
+        }
+        label {
+            color: white;
+        }
+     </style>
+</head>
+<body>
+    <label>Ctrl -> envia mensagem <br> Alt -> abre recebedor de mensagens</label>
+    <div id="receiver"><button onclick="closeReceiver()">fechar</button></div>
+    <textarea id="ok" placeholder="mensagem" maxlength="160"></textarea>
+    <p id="checker"></p>
+    <meter id="meter" value="0" optimum="100" max="160" min="0"></meter>
+
+    <script>
+        const receiver = document.getElementById("receiver");
+       const ok = document.getElementById("ok");
+       const meter = document.getElementById("meter");
+       const checker = document.getElementById("checker");
+
+       
+       setInterval(() => {
+        if (ok.value.length != 160) {
+       checker.innerText = ok.value.length;
+        } else {checker.innerText = "160 e o limite maximo";}
+        meter.value = ok.value.length;
+       }, 1);
+       function submit() {
+        let nw = document.createElement("p");
+        nw.innerText =  `obtido: ${ok.value}`;
+        nw.style.marginLeft = "20px";
+        receiver.appendChild(nw);
+        ok.value = "";
+       }
+       addEventListener("keydown", (e) => {
+        if (e.ctrlKey && ok.value.length != 0) {
+            submit();
+        } else if (e.altKey) {
+            openReceiver();
+        }
+       });
+       function openReceiver() {
+        receiver.style.visibility = "visible";
+       }
+       function closeReceiver() {
+        receiver.style.visibility = "hidden";
+       }
+    
+
+    </script>
+
+</body>
+</html>
