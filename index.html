@@ -29,6 +29,7 @@
             padding: 10px 10px;
         }
         textarea {
+            font-family: 'Times New Roman', Times, serif;
             padding: 10px 10px;
             scrollbar-width: 0;
             justify-content: left;
@@ -74,58 +75,115 @@
             border: 5px solid white;
             background-color: black;
             position: absolute;
+            border-radius: 10px;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             width: 500px;
             height: 500px;
         }
+        #receiver::-webkit-scrollbar {
+            display: none;
+        }
+        #receiverofold {
+            visibility: hidden;
+            z-index: 999;
+            overflow: scroll;
+            border: 5px solid white;
+            background-color: black;
+            position: absolute;
+            border-radius: 10px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 500px;
+        }
+        #receiverofold::-webkit-scrollbar {
+            display: none;
+        }
         label {
+            color: white;
+        }
+        button  {
+            margin: 10px;
+            border-radius: 4px;
+            background-color: black;
+            border: 3px solid white;
             color: white;
         }
      </style>
 </head>
 <body>
-    <label>Ctrl -> envia mensagem <br> Alt -> abre recebedor de mensagens</label>
+    <label>Shift + Ctrl -> envia mensagem <br> Alt -> abre recebedor de mensagens</label>
     <div id="receiver"><button onclick="closeReceiver()">fechar</button></div>
     <textarea id="ok" placeholder="mensagem" maxlength="160"></textarea>
     <p id="checker"></p>
     <meter id="meter" value="0" optimum="100" max="160" min="0"></meter>
+    <button onclick="oldreceivershow()">suas ultimas mensagens</button>
+    <div id="receiverofold"><button onclick="oldreceiverclose()">fechar</button></div>
 
-    <script>
+
+
+<script>
+
+    const receiverofold = document.getElementById("receiverofold");
+        let lastmessages = localStorage.getItem("lastmessages") || "";
+        let counterofnw = parseInt(localStorage.getItem("counterofnw")) || 0;
         const receiver = document.getElementById("receiver");
        const ok = document.getElementById("ok");
        const meter = document.getElementById("meter");
        const checker = document.getElementById("checker");
 
-       
-       setInterval(() => {
+       addEventListener("keyup", (e) => {
         if (ok.value.length != 160) {
        checker.innerText = ok.value.length;
         } else {checker.innerText = "160 e o limite maximo";}
         meter.value = ok.value.length;
-       }, 1);
+    });
+
        function submit() {
+        counterofnw = counterofnw + 1;
         let nw = document.createElement("p");
-        nw.innerText =  `obtido: ${ok.value}`;
+        nw.innerText =  `mensagem ${counterofnw}: ${ok.value}`;
         nw.style.marginLeft = "20px";
         receiver.appendChild(nw);
+        lastmessages += `mensagem ${counterofnw}: ${ok.value} lol`;
+        localStorage.setItem("lastmessages", lastmessages);
+        localStorage.setItem("counterofnw", counterofnw);
         ok.value = "";
+        meter.value = ok.value.length;
+        checker.innerText = ok.value.length;
        }
        addEventListener("keydown", (e) => {
-        if (e.ctrlKey && ok.value.length != 0) {
+        if (e.shiftKey && e.ctrlKey && ok.value.length != 0) {
+            e.preventDefault();
             submit();
         } else if (e.altKey) {
             openReceiver();
         }
-       });
+    });
        function openReceiver() {
         receiver.style.visibility = "visible";
        }
        function closeReceiver() {
         receiver.style.visibility = "hidden";
        }
-    
+       function oldreceivershow() {
+        receiverofold.style.visibility = "visible";
+       }
+       function oldreceiverclose() {
+        receiverofold.style.visibility = "hidden";
+       }
+       if (lastmessages.length > 1) {
+       function retrieveOld() {
+       let nw = document.createElement("p");
+        nw.innerHTML = lastmessages.replace(/lol/g, "<br>");
+        nw.style.marginLeft = "20px";
+        receiverofold.appendChild(nw);
+       }
+       retrieveOld();
+       }
 
     </script>
 
