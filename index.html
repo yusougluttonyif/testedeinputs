@@ -108,6 +108,7 @@
         button  {
             margin: 10px;
             border-radius: 4px;
+            padding: 10px 10px;
             background-color: black;
             border: 3px solid white;
             color: white;
@@ -115,11 +116,12 @@
      </style>
 </head>
 <body>
-    <label>Shift + Ctrl -> envia mensagem <br> Alt -> abre recebedor de mensagens</label>
+    <label>Enter -> envia mensagem <br> Alt -> abre recebedor de mensagens <br> Shift + Ctrl -> abre mensagens da ultima sessão <br>
+    <br> as mensagens da ultima sessão são atualizadas ao recarregar a pagina</label>
     <div id="receiver"><button onclick="closeReceiver()">fechar</button></div>
-    <textarea id="ok" placeholder="mensagem" maxlength="160"></textarea>
+    <textarea id="ok" placeholder="mensagem" maxlength="2500"></textarea>
     <p id="checker"></p>
-    <meter id="meter" value="0" optimum="100" max="160" min="0"></meter>
+    <meter id="meter" value="0" optimum="100" max="2500" min="0"></meter>
     <button onclick="oldreceivershow()">suas ultimas mensagens salvas da ultima sessão</button>
     <div id="receiverofold"><button onclick="oldreceiverclose()">fechar</button></div>
     <button onclick="erase()">apagar suas ultimas mensagens</button>
@@ -136,9 +138,9 @@
        const checker = document.getElementById("checker");
 
        addEventListener("keyup", (e) => {
-        if (ok.value.length != 160) {
+        if (ok.value.length != 2500) {
        checker.innerText = ok.value.length;
-        } else {checker.innerText = "160 e o limite maximo";}
+        } else {checker.innerText = "2500 é o limite maximo";}
         meter.value = ok.value.length;
     });
 
@@ -156,11 +158,13 @@
         checker.innerText = ok.value.length;
        }
        addEventListener("keydown", (e) => {
-        if (e.shiftKey && e.ctrlKey && ok.value.length != 0) {
+        if (e.key === 'Enter' && ok.value.length != 0 && e.shiftKey == false) {
             e.preventDefault();
             submit();
         } else if (e.altKey) {
             openReceiver();
+        } else if (e.shiftKey && e.ctrlKey) {
+            oldreceivershow();
         }
     });
        function openReceiver() {
