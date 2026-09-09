@@ -125,7 +125,8 @@
     <button onclick="openReceiver()">recebedor de mensagens</button>
     <button onclick="oldreceivershow()">suas ultimas mensagens salvas da ultima sessão</button>
     <div id="receiverofold"><button onclick="oldreceiverclose()">fechar</button></div>
-    <button onclick="erase()">apagar suas ultimas mensagens</button>
+    <button id="falseerase" onclick="areyousure()">apagar suas ultimas mensagens</button>
+    <button id="actualeraser" onclick="erase()" style="visibility: hidden;">tem certeza?</button>
 
 
 <script>
@@ -137,6 +138,8 @@
        const ok = document.getElementById("ok");
        const meter = document.getElementById("meter");
        const checker = document.getElementById("checker");
+       const falser = document.getElementById("falseerase");
+       const actual = document.getElementById("actualeraser");
 
        addEventListener("keyup", (e) => {
         if (ok.value.length != 2500) {
@@ -190,11 +193,25 @@
        }
        retrieveOld();
        }
+       function areyousure() {
+        if (lastmessages.length == 0) {
+            falser.innerHTML = "vc não tem oq apagar"
+            setInterval(() => {
+                falser.innerHTML = "apagar suas ultimas mensagens";
+            }, 4000);
+        } else {
+        falser.style.visibility = "hidden";
+        actual.style.visibility = "visible";
+       }
+    }
        function erase() {
         localStorage.setItem("lastmessages", "");
         localStorage.setItem("counterofnw", "");
+        actual.innerHTML = "mensagens apagadas, <br> recarregue a pagina para ver as mensagens irem embora";
+        setInterval(() => {
+            actual.style.visibility = "hidden";
+        }, 10000);
        }
-
     </script>
 
 </body>
