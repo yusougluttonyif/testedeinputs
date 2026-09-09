@@ -6,3 +6,7 @@ eu não sei mexer com local storage, ent nao consegui fazer as mensagens salvare
 # edit do mesmo dia!
 
 eu aprendi como fazer local storage :). é simples; eu so precisava salvar as mensagens antigas com localstorage.setitem, e fazer as variaveis onde estavam salvas serem localstorage.getitem. gg, agora esse projeto ta finalizado (so nao ta bonito - talvez eu faça ele ficar mais bonito depois.)
+
+# edit 09/09/2026 
+eu nao deixei ele mais bonito, mas eu aumentei o limite de caracteres por mensagem para 2500, e agora ta melhor no geral.
+ele tem todos os botões agora, pra pegar no celular tbm mas esse nao foi meu foco 
