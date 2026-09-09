@@ -163,10 +163,11 @@
             e.preventDefault();
             submit();
         } else if (e.altKey) {
+            e.preventDefault();
             openReceiver();
         } else if (e.shiftKey && e.ctrlKey) {
             oldreceivershow();
-        }
+        } 
     });
        function openReceiver() {
         receiver.style.visibility = "visible";
