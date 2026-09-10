@@ -154,7 +154,7 @@
         nw.innerText =  `mensagem ${counterofnw}: ${ok.value}`;
         nw.style.marginLeft = "20px";
         receiver.appendChild(nw);
-        lastmessages += `mensagem ${counterofnw}: ${ok.value} lol`;
+        lastmessages += `mensagem ${counterofnw}: ${ok.value} LINEBREAKERLINEBREAKER`;
         localStorage.setItem("lastmessages", lastmessages);
         localStorage.setItem("counterofnw", counterofnw);
         ok.value = "";
@@ -187,7 +187,7 @@
        if (lastmessages.length > 1) {
        function retrieveOld() {
        let nw = document.createElement("p");
-        nw.innerHTML = lastmessages.replace(/lol/g, "<br><br>");
+        nw.innerHTML = lastmessages.replace(/LINEBREAKERLINEBREAKER/g, "<br><br>");
         nw.style.marginLeft = "20px";
         receiverofold.appendChild(nw);
        }
